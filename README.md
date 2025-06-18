@@ -4,8 +4,11 @@
   <img src="https://img.shields.io/badge/Play-Game-FF9900?style=for-the-badge&logo=github&logoColor=white" alt="Play Game">
 </a>
 
+
+
 A digital "Truth or Drink" game with actual interesting uncomfortable questions. Made because most online versions are either too soft or just badly written.  
 
+![Alt Text](assets/images/front_logo.jpg)
 
 ### Why this exists
 - Most truth-or-dare games online have terrible questions ("What's your favorite color?" isn't a truth question)  
