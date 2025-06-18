@@ -113,10 +113,51 @@ document.addEventListener('DOMContentLoaded', () => {
     let sessionId = null;
     let questionsRemaining = 0;
     let currentLanguage = 'en';
+    let currentChannel = null;
+
+    // ADD this new function anywhere in your script
+    async function resetGameState() {
+        logToPage('Resetting game state...');
+        
+        // Unsubscribe from the current Supabase channel if it exists
+        if (currentChannel) {
+            try {
+                await supabaseClient.removeChannel(currentChannel);
+                logToPage('Successfully unsubscribed from channel.');
+            } catch (error) {
+                logToPage(`Error unsubscribing from channel: ${error.message}`);
+            }
+            currentChannel = null;
+        }
+
+        // Reset all global state variables
+        sessionId = null;
+        selectedGameMode = null;
+        selectedPlayers = null;
+        selectedCategories = [];
+        questionsRemaining = 0;
+
+        // Reset relevant UI elements
+        if (sessionIdDisplay) {
+            sessionIdDisplay.textContent = translations[currentLanguage].sessionId;
+        }
+        const questionTextElement = document.getElementById('question-text');
+        if (questionTextElement) {
+            questionTextElement.textContent = translations[currentLanguage].questionPlaceholder;
+        }
+        logToPage('Game state has been reset.');
+    }
+
 
     // Subscribe to Supabase realtime changes for the session
     async function subscribeToSessionChanges(sessionId) {
-        const subscription = supabaseClient
+        // If a channel is already open, remove it first
+        if (currentChannel) {
+            await supabaseClient.removeChannel(currentChannel);
+        }
+
+        // Create, store, and subscribe to the new channel
+        const channel = supabaseClient
             .channel(`session_${sessionId}`)
             .on('postgres_changes', {
                 event: '*',
@@ -128,6 +169,7 @@ document.addEventListener('DOMContentLoaded', () => {
             })
             .subscribe();
         
+        currentChannel = channel; // Store the active channel
         logToPage('Subscribed to session changes');
     }
 
@@ -714,13 +756,15 @@ document.addEventListener('DOMContentLoaded', () => {
         showScreen('connect-screen');
     });
 
-    document.getElementById('back-button').addEventListener('click', () => {
+    document.getElementById('back-button').addEventListener('click', async () => {
         logToPage('Back button clicked');
+        await resetGameState(); // Reset state
         showScreen('session-screen');
     });
 
-    document.getElementById('back-to-menu-button').addEventListener('click', () => {
+    document.getElementById('back-to-menu-button').addEventListener('click', async () => {
         logToPage('Back to Menu button clicked');
+        await resetGameState(); // Reset state
         showScreen('session-screen');
     });
 
@@ -728,6 +772,15 @@ document.addEventListener('DOMContentLoaded', () => {
         logToPage('Back to Session button clicked');
         showScreen('session-screen');
     });
+
+    if (exitSessionLink) {
+        exitSessionLink.addEventListener('click', async (e) => { // Make the handler async
+            e.preventDefault();
+            console.log('Exit Session button clicked');
+            await resetGameState(); // Reset state
+            showScreen('session-screen');
+        });
+    }
   
     // Load saved language preference
     const savedLanguage = localStorage.getItem('gameLanguage') || 'en';

@@ -27,6 +27,8 @@ A digital "Truth or Drink" game with actual interesting uncomfortable questions.
 - **Syncs in real-time** - start a session and others can join via 4-letter code  
 - **Completely Free** - no need to download and pay for question packs
 
+![Alt Text](assets/gameplay.gif)
+
 ### How it's built
 - HTML/CSS/JS frontend  
 - Supabase for the database (questions + sessions)  
