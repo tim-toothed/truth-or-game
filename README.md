@@ -50,6 +50,9 @@ A digital "Truth or Drink" game with actual interesting uncomfortable questions.
 - Removed several *too* unethical questions
 - Updated fonts for better Cyrillic/Latin display
 
+**Ver 1.0.0 - 24.08.2025**
+- Original Version of the Game hosted on Glitch platform
+
 ## For Future Updates (maybe...)
 - **Truth or Dare mode** - right now there are only Truth-questions
 - **Simple User Accounts** - for saving the questions that were disscussed previously (for now you can use Session IDs)
