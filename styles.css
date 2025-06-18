@@ -1,0 +1,717 @@
+@font-face {
+    font-family: 'Sa_No_Rules'; /* Name to use in CSS */
+    src: url('assets/fonts/Sa_No_Rules.ttf') format('truetype'); /* Path to your font file */
+}
+
+@font-face {
+    font-family: 'Nunito';
+    src: url('assets/fonts/Nunito.ttf') format('opentype'); /* Path to your font file */
+}
+
+body {
+    font-family: "Nunito", sans-serif;
+    background-color: #121212;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+    color: #ff4b63;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.6);
+}
+
+.screen {
+    text-align: center;
+    background-color: rgba(255, 255, 255, 0.9);
+    padding: 20px;
+    border-radius: 15px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+    backdrop-filter: blur(10px);
+    max-width: 100%;
+    margin: 20px;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.hidden {
+    display: none;
+}
+
+/* Truth or... */
+h1 {
+    font-family:'Sa_No_Rules',sans-serif;
+    margin-top: 5px;
+    margin-bottom: 20px;
+    font-size: 70px;
+    text-shadow: 3px 3px 6px black;
+    color: linear-gradient(to top, #ff4b63, #ff737d);
+}
+
+h2 {
+    margin-bottom: 5px;
+    font-size: 24px;
+    text-shadow: 2px 2px 4px black;
+    color: white;
+}
+
+
+
+button {
+    font-family: "Nunito", sans-serif;
+    padding: 12px 25px;
+    margin: 5px;
+    font-size: 16px;
+    cursor: pointer;
+    border: none;
+    border-radius: 25px;
+    background: linear-gradient(to top, #a9a9a9, #6e6b6b); /* Default gray gradient */
+    color: white;
+    transition: background 0.3s ease, color 0.3s ease;
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+    
+}
+
+button.selected,
+#session-screen button,
+#game-screen button {
+    background: linear-gradient(to top, #ff4b63, #ff737d); /* Pink gradient for session-screen and game-screen buttons */
+    color: white;
+}
+
+button:disabled,
+button.disabled {
+    cursor: not-allowed;
+    opacity: 0.6;
+    background: linear-gradient(to top, #a9a9a9, #6e6b6b); /* Keep gray gradient when disabled */
+}
+
+/* Session screen styles */
+#session-screen {
+    background-image: url('assets/images/start_screen_none.png');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    color: #ff4b63;
+    text-shadow: 2px 2px 4px black;
+    padding: 20px;
+    width: 100vw;
+    min-height: 100vh; /* Ensure full height */
+    box-sizing: border-box;
+    height: 100vh;
+}
+
+
+#session-screen .button-group {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 15px;
+}
+
+/* Session screen game buttons*/
+#new-game-button,
+#connect-game-button {
+    padding: 12px 25px;
+    margin: 0px;
+    font-size: 21px;
+    background: linear-gradient(to top, #ff4b63, #ff737d); /* Pink gradient from the start */
+    color: white;
+    transition: background 0.3s ease, color 0.3s ease;
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+    border-radius: 15px;
+    width: 200px;
+    line-height: 18px;
+}
+
+/* Social Media Icons */
+
+#session-screen #social-media-container {
+    position: fixed; /* Anchors the container to the viewport */
+    bottom: 5px; /* Positions the container 10px from the bottom */
+    left: 50%; /* Centers the container horizontally */
+    transform: translateX(-50%); /* Ensures exact centering */
+    text-align: right;
+    padding: 20px;
+    border-radius: 15px; /* Optional: Rounded corners */
+}
+
+#session-screen #social-media-container p {
+    font-family:"Nunito", sans-serif;
+    margin: 0;
+    font-size: 10px;
+    font-weight: bold;
+    color: #ff4b63; /* Pink color for the text */
+}
+
+#session-screen .social-icons {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    margin-top: 5px;
+}
+
+#session-screen .icon-container {
+    width: 35px;
+    height: 35px;
+}
+
+#session-screen .icon-container img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+
+#session-screen .small-button-group {
+    display: flex;
+    justify-content: center; /* Center the icons */
+    align-items: center;
+    gap: 25px; /* Add spacing between the icons */
+    margin-top: 0px; /* Adjust as needed */
+}
+
+#session-screen .circle-icon {
+    width: 40px; /* Adjust size as needed */
+    height: 40px;
+    cursor: pointer;
+    transition: transform 0.3s ease; /* Add a slight transform on hover */
+}
+
+#session-screen .circle-icon:hover {
+    transform: scale(1.1); /* Slightly enlarge the icon on hover */
+}
+
+#session-screen #version-container {
+    position: fixed; /* Anchors the container to the viewport */
+    bottom: 0px; /* Positions the container 10px from the bottom */
+    left: 0px; /* Positions the container 10px from the left */
+    font-size: 10px; /* Small text size */
+    color: white; /* White text color */
+    z-index: 1000; /* Ensures it appears above other elements */
+    padding: 5px; /* Small padding for readability */
+    border-radius: 5px; /* Optional: Rounded corners */
+}
+
+/* Start screen styles */
+#start-screen {
+    background-image: url('assets/images/start_screen_none.png');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    text-align: center;
+    color: #ff4b63;
+    text-shadow: 2px 2px 4px black;
+    padding: 2vh 2vw; /* Use relative padding */
+    width: 100vw;
+    min-height: 100vh; /* Ensure full height */
+    box-sizing: border-box;
+    height: 100vh;
+    position: relative;
+}
+
+#start-screen h1 {
+    margin-bottom: 2vh; /* Relative margin */
+    font-size: 5vh; /* Make font size relative to screen height */
+}
+
+#start-screen h2 {
+    font-family: 'Sa_No_Rules', sans-serif;
+    margin-bottom: 1vh;
+    margin-top: 1vh;
+    font-size: 3.5vh; /* Relative font size */
+    text-shadow: 2px 2px 4px black;
+    color: white;
+}
+
+#start-screen #start-button {
+    margin-top: 3vh; /* Relative margin */
+    margin-bottom: 3vh; /* Relative margin */
+    padding: 2vh 5vw; /* Relative padding */
+    font-size: 2.5vh; /* Relative font size */
+    background: linear-gradient(to top, #a9a9a9, #6e6b6b); /* Initially gray */
+    cursor: not-allowed;
+    transition: background 0.3s ease;
+}
+
+/* Pulsating animation */
+@keyframes pulsate {
+    0% {
+        transform: scale(1);
+        box-shadow: 0 0 10px rgba(255, 75, 99, 0.5), 0 0 20px rgba(255, 75, 99, 0.5), 0 0 30px rgba(255, 75, 99, 0.5);
+    }
+    50% {
+        transform: scale(1.05);
+        box-shadow: 0 0 20px rgba(255, 75, 99, 0.7), 0 0 40px rgba(255, 75, 99, 0.7), 0 0 60px rgba(255, 75, 99, 0.7);
+    }
+    100% {
+        transform: scale(1);
+        box-shadow: 0 0 10px rgba(255, 75, 99, 0.5), 0 0 20px rgba(255, 75, 99, 0.5), 0 0 30px rgba(255, 75, 99, 0.5);
+    }
+}
+
+/* Start button styles for when it's enabled */
+#start-screen #start-button.enabled {
+    background: linear-gradient(to top, #ff4b63, #ff737d); /* Pink gradient */
+    cursor: pointer;
+    animation: pulsate 1.5s infinite; /* Add pulsating animation */
+}
+
+#start-screen #start-button.disabled,
+#start-screen #start-button:disabled {
+    background: linear-gradient(to top, #a9a9a9, #6e6b6b); /* Gray gradient when disabled */
+    cursor: not-allowed;
+    animation: none; /* Disable pulsating animation */
+}
+
+#start-screen #back-to-session-button {
+    background: linear-gradient(to top, #ff4b63, #ff737d); /* Pink gradient */
+    padding: 2vh 5vw; /* Relative padding */
+    border-radius: 25px;
+    font-size: 2.5vh; /* Relative font size */
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+    color: white;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+    margin-left: 0; /* Align it closer to the left */
+    align-self: flex-start; /* Align the button to the left of its container */
+    transition: background 0.3s ease, color 0.3s ease;
+}
+
+
+/* Connect screen styles */
+#connect-screen {
+    background-image: url('assets/images/start_screen_none.png');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    color: #ff4b63;
+    text-shadow: 2px 2px 4px black;
+    padding: 20px;
+    width: 100vw;
+    height: 100vh;
+}
+
+
+#connect-screen input {
+    padding: 10px;
+    font-size: 18px;
+    border-radius: 10px;
+    border: 1px solid #a9a9a9;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+#connect-button {
+    padding: 12px 25px;
+    font-size: 18px;
+    background: linear-gradient(to top, #a9a9a9, #6e6b6b); /* Initially gray */
+    color: white;
+    transition: background 0.3s ease, color 0.3s ease;
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+    border-radius: 25px;
+    cursor: not-allowed;
+}
+
+#connect-button.enabled {
+    background: linear-gradient(to top, #ff4b63, #ff737d); /* Pink gradient when clicked */
+    color: white;
+    cursor: pointer;
+    animation: pulsate 1.5s infinite; /* Add pulsating animation */
+}
+
+#connect-screen .button-group {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+}
+
+#connect-screen #back-button {
+    background: linear-gradient(to top, #ff4b63, #ff737d); /* Pink gradient for the back button */
+    color: white;
+    text-shadow: 1px 1px 2px black;
+}
+
+/* Game screen styles */
+#game-screen {
+    background-image: url('assets/images/start_screen_none.png');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between; /* Distribute content with space between */
+    align-items: center;
+    padding: 10px 20px;
+    color: white;
+    min-height: 100vh; /* Ensure full height */
+    box-sizing: border-box;
+    text-align: center; /* Center text */
+    width: 100vw;
+    height: 100vh;
+    position: relative; /* Ensures other elements can be layered on top */
+}
+
+#game-screen .circle-icon {
+    width: 40px; /* Adjust size as needed */
+    height: 40px;
+    cursor: pointer;
+    transition: transform 0.3s ease; /* Add a slight transform on hover */
+    z-index: 4; /* Ensure it's above other elements */
+}
+
+#game-screen #session-id-display {
+    font-size: 18px;
+    color: white;
+    margin-bottom: 10px;
+    filter: drop-shadow(0px 0px 10px black); /* Pink-gradient light effect */
+    z-index: 3; /* Ensure it stays on top */
+    position: relative; /* Ensure it respects z-index properly */
+}
+
+#game-screen #question-text {
+    background: linear-gradient(to top, #ff4b63, #ff737d); /* Pink gradient */
+    padding: 20px;
+    border-radius: 15px;
+    margin-bottom: 20px;
+    margin: 0 auto; /* Horizontally center */
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.9);
+    max-width: 80%;
+    text-align: center;
+    font-size: 28px;
+    line-height: 28px;
+    z-index: 3; /* Ensure it stays on top */
+    position: relative; /* Ensure it respects z-index properly */
+}
+
+#game-screen #exit-suggest-bug-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    max-width: 200px; /* Adjust width as needed */
+    position: absolute;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 4; /* Ensure it stays on top */
+}
+
+/* Apply hover effect directly to the icons */
+#game-screen #exit-suggest-bug-container .circle-icon {
+    filter: drop-shadow(0px 0px 10px black); /* Pink-gradient light effect */
+    transition: transform 0.3s ease, filter 0.3s ease; /* Ensure both transform and filter transition */
+}
+
+#game-screen #exit-suggest-bug-container .circle-icon:hover {
+    transform: scale(1.1); /* Slightly enlarge the icon on hover */
+    filter: drop-shadow(0px 0px 15px rgba(255, 75, 99, 0.2)); /* Intensify the drop-shadow on hover */
+}
+
+/* Container for Done and Pass buttons to split the screen */
+#game-screen #truth-or-drink-buttons {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    z-index: 2; /* Positioned behind other elements */
+}
+
+#game-screen #tod-done-button, 
+#game-screen #tod-pass-button {
+    border-radius: 0px;
+    flex: 1;
+    border: none;
+    color: white;
+    font-size: 24px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background 0.3s ease;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 0;
+    margin: 0;
+    position: relative;
+    text-align: center; /* Ensure the main text is centered */
+}
+
+#game-screen #tod-done-button {
+    background: rgba(255, 75, 99, 0.2); /* Semi-transparent pink */
+}
+
+#game-screen #tod-pass-button {
+    background: rgba(169, 169, 169, 0.2); /* Semi-transparent gray */
+}
+
+#game-screen #tod-done-button::before,
+#game-screen #tod-pass-button::before {
+    content: "";
+    background-size: 150px 150px; /* Resize the image */
+    background-repeat: no-repeat;
+    background-position: center;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%); /* Center the image behind the text */
+    width: 150px; /* Image width */
+    height: 150px; /* Image height */
+    filter: drop-shadow(0 0 10px black); /* Apply a drop shadow to the image */
+    opacity: 0.2; /* Lower opacity to ensure the text is readable */
+    z-index: 1; /* Positioned behind the text */
+}
+
+#game-screen #tod-done-button::before {
+    background-image: url('assets/images/done_icon.png');
+}
+
+#game-screen #tod-pass-button::before {
+    background-image: url('assets/images/pass_icon.png');
+}
+
+#game-screen #tod-done-button span.main-text,
+#game-screen #tod-pass-button span.main-text {
+    position: relative;
+    z-index: 2; /* Ensure the text stays above the icon */
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8); /* Add black drop shadow to text */
+}
+
+#game-screen #tod-done-button span.hint-text,
+#game-screen #tod-pass-button span.hint-text {
+    font-size: 12px; /* Smaller font for hint text */
+    font-weight: normal;
+    position: absolute; /* Absolute positioning to place it independently */
+    top: 50%; /* Start at the center of the button */
+    transform: translateY(80%); /* Move the text upwards by half of its own height */
+    left: 50%;
+    transform: translate(-50%, 80px); /* Center horizontally and move down vertically */
+    z-index: 2; /* Ensure the text stays above the icon */
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.8); /* Add black drop shadow to hint text */
+    white-space: normal; /* Allow text to wrap */
+    text-align: center; /* Center align the text */
+    max-width: 80%; /* Prevent the text from taking too much width */
+    word-wrap: break-word; /* Ensure long words break and wrap */
+    line-height: 10px;
+    opacity: 0.6;
+}
+
+
+
+
+
+/* End screen styles */
+#end-screen {
+    background-image: url('assets/images/start_screen_none.png');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    color: #ff4b63;
+    text-shadow: 2px 2px 4px black;
+    padding: 20px;
+    width: 100vw;
+    min-height: 100vh; /* Ensure full height */
+    box-sizing: border-box;
+    height: 100vh;
+}
+
+
+@keyframes pulsatee {
+    0% {
+        transform: scale(1);
+        text-shadow: 0 0 2px rgba(255, 75, 99, 0.1), 0 0 4px rgba(255, 75, 99, 0.1), 0 0 6px rgba(255, 75, 99, 0.1);
+    }
+    50% {
+        transform: scale(1.05);
+        text-shadow: 0 0 4px rgba(255, 75, 99, 0.2), 0 0 8px rgba(255, 75, 99, 0.2), 0 0 12px rgba(255, 75, 99, 0.2);
+    }
+    100% {
+        transform: scale(1);
+        text-shadow: 0 0 2px rgba(255, 75, 99, 0.2), 0 0 4px rgba(255, 75, 99, 0.1), 0 0 6px rgba(255, 75, 99, 0.1);
+    }
+}
+.pulsating-text {
+    animation: pulsatee 1.5s infinite; /* Apply the pulsating animation */
+}
+
+#end-screen h1 {
+    color: linear-gradient(to top, #ff4b63, #ff737d);
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-shadow: 2px 2px 4px black;
+    margin: 10px auto; /* Center and add some margin */
+    max-width: 80%; /* Set a max-width similar to the question container */
+    text-align: center; /* Ensure the text is centered */
+}
+
+
+#end-screen .button-group {
+    display: flex;
+    justify-content: center; /* Center the back button */
+}
+
+#end-screen #back-to-menu-button {
+    background: linear-gradient(to top, #ff4b63, #ff737d); /* Pink gradient */
+    padding: 10px 20px;
+    border-radius: 25px;
+    font-size: 18px;
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+    color: white;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+    transition: background 0.3s ease, color 0.3s ease;
+    position: fixed;
+    bottom:10px;
+}
+
+
+#connect-screen #error-message {
+    position: relative;
+    background-color: rgba(255, 75, 99, 0.9); /* Semi-transparent pink */
+    color: white;
+    border-radius: 10px;
+    width:200px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+    font-size: 18px;
+    text-align: center;
+    z-index: 1000; /* Ensure it is on top of other elements */
+    max-width: 80%; /* Prevent it from being too wide on smaller screens */
+    word-wrap: break-word; /* Ensure long words break and wrap */
+}
+
+#connect-screen #error-message.show {
+    display: block; /* Show when error occurs */
+}
+
+
+/* Out-of-Order Container */
+.out-of-order-container {
+    position: relative;
+    display: inline-block;
+}
+
+/* Out-of-Order Message */
+.out-of-order-message {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) rotate(-15deg);
+    background-color: rgba(255, 75, 99, 0.8); /* Semi-transparent pink */
+    color: white;
+    padding: 5px 10px;
+    border-radius: 5px;
+    font-size: 16px;
+    font-weight: bold;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+    pointer-events: none; /* So it doesn't block interaction with the button */
+    z-index: 10;
+    opacity: 0.8;
+    line-height:16px;
+}
+
+/* Disabled button style */
+#dare-button.disabled {
+    cursor: not-allowed;
+    opacity: 0.5;
+    background: linear-gradient(to top, #a9a9a9, #6e6b6b); /* Gray gradient */
+}
+
+/* Exit Session Button Container */
+#exit-session-container {
+    margin-top: auto; /* Push the button to the bottom */
+    width: 100%; /* Full width of the screen */
+    display: flex;
+    justify-content: center; /* Center the button horizontally */
+    position: absolute;
+    bottom: 20px; /* Position it at the bottom */
+    left: 0; /* Align with the left edge of the container */
+    z-index: 10;
+}
+
+/* Exit Session Button Styles */
+#exit-session-button {
+    background: linear-gradient(to top, #a9a9a9, #6e6b6b); /* Simple gray gradient */
+    padding: 12px 25px;
+    border-radius: 25px;
+    font-size: 18px;
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+    color: white;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+    cursor: pointer;
+    transition: background 0.3s ease, color 0.3s ease;
+}
+
+/* Language Toggle Styles */
+#language-toggle-container {
+    position: fixed;
+    bottom: 12px;  /* Changed from top to bottom */
+    right: 18px;   /* Adjusted right spacing */
+    z-index: 1000;
+    /* Add margin to avoid overlap with other bottom elements */
+    margin-bottom: 10px;
+}
+
+#language-toggle-button {
+    display: flex;
+    padding: 0;
+    border-radius: 8px; /* Slightly rounded */
+    overflow: hidden;
+    background: transparent;
+    border: none;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2); /* Smaller shadow */
+    height: 28px; /* Fixed height */
+}
+
+.lang-option {
+    padding: 5px 8px; /* Reduced padding (was 8px 15px) */
+    font-size: 12px;   /* Smaller font (was 14px) */
+    cursor: pointer;
+    transition: all 0.3s ease;
+    line-height: 20px; /* Ensures vertical centering */
+}
+
+.lang-option:first-child {
+    border-top-left-radius: 6px; /* Slightly rounded */
+    border-bottom-left-radius: 6px;
+}
+
+.lang-option:last-child {
+    border-top-right-radius: 6px;
+    border-bottom-right-radius: 6px;
+}
+
+.lang-option.selected {
+    background: linear-gradient(to top, #ff4b63, #ff737d);
+    color: white;
+}
+
+.lang-option:not(.selected) {
+    background: linear-gradient(to top, #a9a9a9, #6e6b6b);
+    color: white;
+}

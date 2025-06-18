@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,height=device-height,initial-scale=1.0">
+    <title>Truth or Dare Game</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+</head>
+<body>
+    <!-- Language Toggle Button -->
+    <div id="language-toggle-container">
+        <button id="language-toggle-button">
+            <span id="en-lang" class="lang-option selected">EN</span>
+            <span id="ru-lang" class="lang-option">RU</span>
+        </button>
+    </div>  
+  
+    <!-- Session Selection Screen -->
+    <div id="session-screen" class="screen" style="display:none;">
+        <h1 data-i18n="truthOr">Truth or...</h1>
+        <div class="button-group">
+            <button id="new-game-button" data-i18n="newGame">New Game</button>
+            <button id="connect-game-button" data-i18n="connectGame">Connect to Existing Game</button>
+            
+            <!-- Suggest+Report Buttons -->
+            <div class="small-button-group">
+                <div class="icon-with-text">
+                    <a href="https://forms.gle/Hk9qqeWhcwsRxGDXA" target="_blank">
+                        <img id="suggest-icon" class="circle-icon" src="assets/images/add_q_pink.png" alt="Suggest Question">
+                    </a>
+                </div>
+                <div class="icon-with-text">
+                    <a href="https://forms.gle/fRF9jWMC1dNTx85bA" target="_blank">
+                        <img id="report-icon" class="circle-icon" src="assets/images/report_pink.png" alt="Report a Problem">
+                    </a>
+                </div>
+            </div>
+        </div>
+        
+        <div id="social-media-container">
+            <p data-i18n="followMe">follow me.</p>
+            <div class="social-icons">
+                <a href="https://www.instagram.com/_toothed/" target="_blank" class="icon-container">
+                    <img src="assets/images/ig_pink.png" alt="Instagram">
+                </a>
+                <a href="https://github.com/tim-toothed" target="_blank" class="icon-container">
+                    <img src="assets/images/github_pink.png" alt="Github">
+                </a>
+                <a href="https://www.linkedin.com/in/tim-toothed" target="_blank" class="icon-container">
+                    <img src="assets/images/linkedin_pink.png" alt="LinkedIn">
+                </a>
+            </div>
+        </div>
+      
+        <div id="version-container" data-i18n="version">ver. 1.0.0</div>
+    </div>
+
+    <!-- Start Screen -->
+    <div id="start-screen" class="screen" style="display:none;">
+        <h1 data-i18n="truthOr">Truth or...</h1>
+
+        <!-- First Row: Single Choice Buttons for Game Mode -->
+        <div class="button-group single-choice game-mode">
+            <button class="choice-button" data-choice="truth-or-drink" data-i18n="drink">Drink</button>
+
+            <!-- Wrap the Dare button in a container with an out-of-order message -->
+            <div class="out-of-order-container">
+                <button class="choice-button disabled" id="dareRegButton" data-choice="truth-or-dare" disabled data-i18n="dare">Dare</button>
+                <div class="out-of-order-message" data-i18n="maybeLater">Maybe later</div>
+            </div>
+        </div>
+
+        <h2 data-i18n="players">Players</h2>
+
+        <!-- Second Row: Single Choice Buttons for Number of Players -->
+        <div class="button-group single-choice player-count">
+            <button class="choice-button" data-choice="party" data-i18n="party">Party</button>
+            <button class="choice-button" data-choice="everyone" data-i18n="everyone">Any</button>
+            <button class="choice-button" data-choice="couple" data-i18n="couple">Couple</button>
+        </div>
+
+        <h2 data-i18n="categories">Categories</h2>
+
+        <!-- Third Row: Multiple Choice Buttons for Question Categories -->
+        <div class="button-group multiple-choice">
+            <button class="choice-button" data-choice="sex" data-i18n="sex">Sex</button>
+            <button class="choice-button" data-choice="trash" data-i18n="trash">Trash</button>
+            <button class="choice-button" data-choice="personal" data-i18n="personal">Personal</button>
+        </div>
+
+        <!-- Fourth Row: Start Button -->
+        <div class="button-group">
+            <button id="start-button" disabled data-i18n="start">Start</button>
+        </div>
+
+        <!-- Back Button -->
+        <div class="button-group">
+            <button id="back-to-session-button" data-i18n="back">Back</button>
+        </div>
+    </div>
+
+    <!-- Connect to Existing Game Screen -->
+    <div id="connect-screen" class="screen" style="display:none;">
+        <h1 data-i18n="truthOr">Truth or...</h1>
+        <h2 data-i18n="enterRoomId">Enter Room ID</h2>
+        <input type="text" id="room-id-input" maxlength="4">
+        <div class="button-group">
+            <button id="connect-button" disabled data-i18n="ok">OK</button>
+            <button id="back-button" data-i18n="back">Back</button>
+            <div id="error-message" class="hidden" data-i18n="invalidRoomId">Invalid Room ID</div>
+        </div>
+    </div>
+    
+    <!-- Game Screen -->
+    <div id="game-screen" class="screen" style="display:none;">
+        <div id="session-id-display">Session ID: XXXX</div>
+        <div id="question-text-container">
+            <h2 id="question-text" data-i18n="questionPlaceholder">Question will appear here</h2>
+        </div>
+
+        <!-- Buttons for Truth or Drink -->
+        <div id="truth-or-drink-buttons" class="button-group">
+            <button id="tod-done-button">
+                <span class="main-text" data-i18n="done">Done</span>
+                <span class="hint-text" data-i18n="tellEverything">Tell everything!</span>
+            </button>
+            <button id="tod-pass-button">
+                <span class="main-text" data-i18n="pass">Pass</span>
+                <span class="hint-text" data-i18n="drinkAndLeave">Drink and leave the question for someone else!</span>
+            </button>
+        </div>
+
+        <!-- Buttons for Truth or Dare -->
+        <div id="truth-or-dare-buttons" class="hidden button-group">
+            <button id="truth-button" data-i18n="truth">Truth</button>
+            <button id="dare-button" data-i18n="dare">Dare</button>
+            <button id="tord-done-button" data-i18n="done">Done</button>
+            <button id="tord-pass-button" data-i18n="pass">Pass</button>
+        </div>
+      
+        <!-- Suggest, Exit, and Bug Icons in Game Screen -->
+        <div id="exit-suggest-bug-container">
+            <a href="https://docs.google.com/forms/d/e/1FAIpQLSeZjpFnsu1fcixHPgQIT8yvkepS7utj8cYNoDpfK9Hy9kl_oQ/viewform" target="_blank">
+                <img id="report-icon-game" class="circle-icon" src="assets/images/report_pink.png" alt="Report a Problem">
+            </a>
+            <a href="https://docs.google.com/forms/d/e/1FAIpQLSfViNBnUQqBbatLzwEApbNez0As7cdZVomLii-Mx3ko34a0uQ/viewform" target="_blank">
+                <img id="suggest-icon-game" class="circle-icon" src="assets/images/add_q_pink.png" alt="Suggest Question">
+            </a>
+            <a href="#" id="exit-session-link">
+                <img id="exit-icon-game" class="circle-icon" src="assets/images/exit_pink.png" alt="Exit Session">
+            </a>
+        </div>
+    </div>
+
+    <!-- End Screen -->
+    <div id="end-screen" class="screen" style="display:none;">
+        <h1 class="pulsating-text" data-i18n="allQuestionsDone">All Questions Done!</h1>
+        <div class="button-group">
+            <button id="back-to-menu-button" data-i18n="backToMenu">Back to Menu</button>
+        </div>
+    </div>
+
+    <!-- Log Container for Debugging display:none; -->
+    <div id="log-container" style="position:fixed;top:0;left:0;background-color:#000;color:#fff;width:300px;height:500px;overflow-y:auto;padding:10px;font-size:12px;"></div>
+
+    <script src="game.js"></script>
+</body>
+</html>
