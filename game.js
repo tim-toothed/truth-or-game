@@ -94,7 +94,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const sessionIdDisplay = document.getElementById('session-id-display'); // Get the session ID display element
     const exitSessionLink = document.getElementById('exit-session-link');
 
-    // Initialize Supabase client
+    // No, these keys would not help you to break into my db
     const supabaseUrl = 'https://ylrbjiciudweqmfnzghc.supabase.co';
     const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InlscmJqaWNpdWR3ZXFtZm56Z2hjIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTAxMTQ4MDksImV4cCI6MjA2NTY5MDgwOX0.eR-eSeTZR8ZUBC21zIjqDYX0fez6whLsduFNEVr7vYo'
     const supabaseClient = window.supabase.createClient(supabaseUrl, supabaseKey);
@@ -118,7 +118,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // ADD this new function anywhere in your script
     async function resetGameState() {
         logToPage('Resetting game state...');
-        
+
         // Unsubscribe from the current Supabase channel if it exists
         if (currentChannel) {
             try {
@@ -145,6 +145,15 @@ document.addEventListener('DOMContentLoaded', () => {
         if (questionTextElement) {
             questionTextElement.textContent = translations[currentLanguage].questionPlaceholder;
         }
+
+        // Deselect all choice buttons (game mode, player count, and categories)
+        document.querySelectorAll('.choice-button.selected').forEach(button => {
+            button.classList.remove('selected');
+        });
+
+        // Ensure the start button is disabled after reset
+        updateStartButtonState();
+
         logToPage('Game state has been reset.');
     }
 
@@ -392,7 +401,7 @@ document.addEventListener('DOMContentLoaded', () => {
             // Get current session data
             const { data: sessionData, error: sessionError } = await supabaseClient
                 .from('truth_sessions')
-                .select('q_done, categories, game_mode')
+                .select('q_done, categories, game_mode, players')
                 .eq('s_id', sessionId)
                 .single();
 
@@ -413,15 +422,35 @@ document.addEventListener('DOMContentLoaded', () => {
                 query = query.not('q_id', 'in', `(${excludedQuestions.join(',')})`);
             }
 
+            // Add player type filters
+            const playerType = sessionData.players;
+            if (playerType === 'couple') {
+                query = query.eq('couple', 1);
+                logToPage('Applying couple filter: couple=1');
+            } else if (playerType === 'party') {
+                query = query.eq('party', 1);
+                logToPage('Applying party filter: party=1');
+            } else if (playerType === 'everyone') { // This is for 'everyone' mode
+                query = query.eq('party', 1).eq('couple', 1);
+                logToPage('Applying everyone filter: party=1 AND couple=1');
+            }
+
             // Add category filters
             const categoryConditions = categories.map(cat => `${cat}.eq.1`);
+
+            // Add game mode filter (Truth or Dare always includes both truth and dare)
             if (sessionData.game_mode === 'truth-or-dare') {
                 categoryConditions.push('truth.eq.1');
                 categoryConditions.push('dare.eq.1');
             }
-            query = query.or(categoryConditions.join(','));
 
-            logToPage('Executing query with conditions: ' + categoryConditions.join(','));
+            // The .or() clause should be the last filter applied for category conditions
+            if (categoryConditions.length > 0) {
+                query = query.or(categoryConditions.join(','));
+                logToPage('Executing query with OR conditions: ' + categoryConditions.join(','));
+            } else {
+                logToPage('No additional category OR conditions applied.');
+            }
 
             // Get all matching questions
             const { data: questions, error: questionsError } = await query;

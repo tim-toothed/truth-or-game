@@ -1,6 +1,6 @@
 # Truth or...
 
-<a href="https://toothed.github.io/truth-or-game/">
+<a href="https://tim-toothed.github.io/truth-or-game/">
   <img src="https://img.shields.io/badge/Play-Game-FF9900?style=for-the-badge&logo=github&logoColor=white" alt="Play Game">
 </a>  
 
@@ -37,6 +37,9 @@ A digital "Truth or Drink" game with actual interesting uncomfortable questions.
 
 ## Updates
 
+**Ver 1.1.3 - 12.07.2025**
+- Bug Fix (incorrect players selection, start-screen buttons state visual error)
+
 **Ver 1.1.2 - 18.06.2025**
 - Migrated from Glitch to GitHub Pages
 - Updated codebase for Supabase integration
@@ -49,6 +52,9 @@ A digital "Truth or Drink" game with actual interesting uncomfortable questions.
 - Implemented language toggle button
 - Removed several *too* unethical questions
 - Updated fonts for better Cyrillic/Latin display
+
+**Ver 1.0.0 - 23.08.2024**
+- Initial release
 
 ## For Future Updates (maybe...)
 - **Truth or Dare mode** - right now there are only Truth-questions
